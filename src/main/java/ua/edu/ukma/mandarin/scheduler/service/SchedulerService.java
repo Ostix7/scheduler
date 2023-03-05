@@ -2,7 +2,7 @@ package ua.edu.ukma.mandarin.scheduler.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.edu.ukma.mandarin.scheduler.domain.entity.Scheduler;
+import ua.edu.ukma.mandarin.scheduler.domain.entity.Schedule;
 import ua.edu.ukma.mandarin.scheduler.domain.util.Faculty;
 import ua.edu.ukma.mandarin.scheduler.repository.SchedulerRepository;
 
@@ -13,18 +13,21 @@ public class SchedulerService {
     @Autowired
     private SchedulerRepository schedulerRepository;
 
-    public void createScheduler(int id,String name, Faculty faculty, short year){
-        Scheduler scheduler = new Scheduler(id,name,faculty,year);
-        schedulerRepository.save(scheduler);
-    }
 
-    public List<Scheduler> findAll(){
+    public List<Schedule> findAll(){
         return schedulerRepository.findAll();
     }
-
-    public List<Scheduler> findAllByFaculty(){
-       return schedulerRepository.findAllByFaculty();
+    public List<Schedule>findByStartDate(long startTime){
+        return schedulerRepository.findAllByStartTime(startTime);
     }
+    public Schedule findById(long id){
+        return schedulerRepository.findById(id).orElse(null);
+    }
+    public void deleteById(long id){
+        schedulerRepository.deleteById(id);
+    }
+
+
 
 
 }
