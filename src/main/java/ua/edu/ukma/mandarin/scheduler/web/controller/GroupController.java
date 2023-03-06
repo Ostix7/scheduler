@@ -28,4 +28,14 @@ public class GroupController {
     public void deleteSubjectById(@PathVariable Long id) {
         groupService.deleteGroupById(id);
     }
+
+    @PutMapping("/register/{id}")
+    public void registerStudentToGroup(@Param("student") Integer studentId, @PathVariable long id) {
+        groupService.registerToGroup(studentId, id);
+    }
+
+    @PutMapping("/unregister/{id}")
+    public void unregisterStudentFromGroup(@Param("student") Integer studentId, @PathVariable long id) {
+        groupService.unregisterFromGroup(studentId, id);
+    }
 }

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Setter
@@ -33,5 +35,11 @@ public class Teacher {
 
     @NotEmpty
     private String rank;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Group> groupsToTeach;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Subject> subjectsAuthor;
 
 }

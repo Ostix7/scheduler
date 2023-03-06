@@ -6,6 +6,7 @@ import ua.edu.ukma.mandarin.scheduler.domain.dto.GroupDTO;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.SubjectDTO;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Group;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Subject;
+import ua.edu.ukma.mandarin.scheduler.domain.entity.Teacher;
 import ua.edu.ukma.mandarin.scheduler.repository.SubjectRepository;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class SubjectService {
     public List<SubjectDTO> getAllSubjects() {
         return subjectRepository.findAll()
                 .stream()
-                .map(x -> new SubjectDTO(x.getId(), x.getName(), x.getAuthorId(),
+                .map(x -> new SubjectDTO(x.getId(), x.getName(), x.getAuthor().getTeacherId(),
                         getGroupDTOS(x.getGroups())))
                 .collect(Collectors.toList());
     }
@@ -34,30 +35,31 @@ public class SubjectService {
     public List<SubjectDTO> getAllSubjectsByAuthorId(long authorId) {
         return subjectRepository.findAllByAuthorId(authorId)
                 .stream()
-                .map(x -> new SubjectDTO(x.getId(), x.getName(), x.getAuthorId(),
+                .map(x -> new SubjectDTO(x.getId(), x.getName(), x.getAuthor().getTeacherId(),
                         getGroupDTOS(x.getGroups())))
                 .collect(Collectors.toList());
     }
 
     public SubjectDTO getSubjectById(long id) {
         return subjectRepository.findById(id)
-                .map(subject -> new SubjectDTO(subject.getId(), subject.getName(), subject.getAuthorId(),
+                .map(subject -> new SubjectDTO(subject.getId(), subject.getName(), subject.getAuthor().getTeacherId(),
                         getGroupDTOS(subject.getGroups())))
                 .orElse(null);
     }
 
     public SubjectDTO getSubjectBySubjectName(String name) {
         return subjectRepository.findSubjectByName(name)
-                .map(subject -> new SubjectDTO(subject.getId(), subject.getName(), subject.getAuthorId(),
+                .map(subject -> new SubjectDTO(subject.getId(), subject.getName(), subject.getAuthor().getTeacherId(),
                         getGroupDTOS(subject.getGroups())))
                 .orElse(null);
     }
 
     public void addNewSubject(SubjectDTO subjectDTO) {
+        Teacher author = groupService.getTeacher(subjectDTO.getAuthorId());
         Subject subject = Subject.builder()
                 .id(subjectDTO.getId())
                 .name(subjectDTO.getName())
-                .authorId(subjectDTO.getAuthorId())
+                .author(author)
                 .build();
         Subject subjectSaved = subjectRepository.save(subject);
 
@@ -76,7 +78,7 @@ public class SubjectService {
 
     private List<GroupDTO> getGroupDTOS(List<Group> groups) {
         return groups.stream()
-                .map(group -> new GroupDTO(group.getId(), group.getNumber(), group.getLecturerId()))
+                .map(group -> new GroupDTO(group.getId(), group.getNumber(), group.getLecturer().getTeacherId()))
                 .collect(Collectors.toList());
     }
 }

@@ -24,9 +24,9 @@ public class Subject {
 
     private String name;
 
-    private Long authorId; //TODO: add one to many
-
-//    private List<Student> studentList //TODO: add many to many link
+    @ManyToOne
+    @JoinColumn
+    private Teacher author;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Group> groups;
