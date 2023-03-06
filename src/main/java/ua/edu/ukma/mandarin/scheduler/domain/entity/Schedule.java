@@ -19,10 +19,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn
-    private Subject subject;
-
+    //We do not need subject, as it is connected to group
     @ManyToOne
     @JoinColumn
     private Group group;

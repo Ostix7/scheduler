@@ -37,6 +37,11 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    public Student getStudentById(int id) {
+        return studentRepository.findById(id)
+                .orElse(null);
+    }
+
 }
 
 

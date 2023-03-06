@@ -8,5 +8,5 @@ import lombok.Getter;
 public class GroupDTO {
     private Long id;
     private byte number;
-    private long lecturerId;
+    private int lecturerId;
 }

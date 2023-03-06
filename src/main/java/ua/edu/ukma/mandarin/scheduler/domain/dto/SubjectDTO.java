@@ -10,10 +10,7 @@ import java.util.List;
 public class SubjectDTO {
     private Long id;
     private String name;
-    private Long authorId;
+    private int authorId;
     //Subject should be added with groups usually
     private List<GroupDTO> groupDTOList;
-
-    //If subject is mandatory for some students it should be filled
-    // private List<Student> students
 }
