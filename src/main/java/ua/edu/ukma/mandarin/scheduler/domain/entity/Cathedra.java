@@ -1,17 +1,18 @@
 package ua.edu.ukma.mandarin.scheduler.domain.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 import lombok.*;
 
 @Entity
-@Table(name = "subject")
-@Getter
-@Setter
+@Table(name = "cathedra")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Builder
-public class Subject {
+public class Cathedra {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -19,8 +20,6 @@ public class Subject {
   private String name;
 
   @ManyToOne
-  @JoinColumn(name = "author_id")
-  private Teacher author;
-
-  @OneToMany private List<Group> groups;
+  @JoinColumn(name = "faculty_id")
+  private Faculty faculty;
 }

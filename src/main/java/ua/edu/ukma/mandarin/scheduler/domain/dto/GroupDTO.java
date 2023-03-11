@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class GroupDTO {
-    private Long id;
-    private byte number;
-    private int lecturerId;
+  private Long id;
+  private byte number;
+  private Long teacherId;
 }

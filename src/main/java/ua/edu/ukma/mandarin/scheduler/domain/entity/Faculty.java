@@ -5,22 +5,23 @@ import java.util.List;
 import lombok.*;
 
 @Entity
-@Table(name = "subject")
-@Getter
-@Setter
+@Table(name = "faculty")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
-public class Subject {
+public class Faculty {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "author_id")
-  private Teacher author;
+  @OneToMany(mappedBy = "faculty")
+  private List<Cathedra> cathedras;
 
-  @OneToMany private List<Group> groups;
+  @OneToMany(mappedBy = "faculty")
+  private List<Speciality> specialities;
 }

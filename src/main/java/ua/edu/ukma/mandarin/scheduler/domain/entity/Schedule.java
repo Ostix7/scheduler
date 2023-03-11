@@ -7,26 +7,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ua.edu.ukma.mandarin.scheduler.domain.util.Day;
 
-import java.sql.Timestamp;
-
 @Entity
+@Table(name = "schedule")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class Schedule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    //We do not need subject, as it is connected to group
-    @ManyToOne
-    @JoinColumn
-    private Group group;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private Day day;
-    private Timestamp startTime;
-    private Timestamp endTime;
+  @ManyToOne
+  @JoinColumn(name = "group_id")
+  private Group group;
 
+  private Integer week;
 
+  @Enumerated(EnumType.STRING)
+  @Column(name = "week_day")
+  private Day day;
+
+  @Column(name = "start_time")
+  private String startTime;
+
+  @Column(name = "end_time")
+  private String endTime;
 }
