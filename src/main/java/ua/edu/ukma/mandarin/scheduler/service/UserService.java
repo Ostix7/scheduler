@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.User;
 import ua.edu.ukma.mandarin.scheduler.repository.UserRepository;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
+/* TODO: Sasha next time start application and not just commit your code, which breaks everything.
+    So that I do need to spend time figuring out what is wrong and removing
+     all these imports. You do not even use them, but they broke JWT filter. Thanks
+ */
 import java.util.List;
 
 @Service

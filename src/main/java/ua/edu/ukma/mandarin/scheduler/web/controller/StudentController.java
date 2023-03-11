@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Student;
 import ua.edu.ukma.mandarin.scheduler.service.StudentService;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @RestController

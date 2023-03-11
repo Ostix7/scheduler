@@ -12,7 +12,6 @@ import ua.edu.ukma.mandarin.scheduler.exception.TeacherNotFoundException;
 import ua.edu.ukma.mandarin.scheduler.repository.TeacherRepository;
 import ua.edu.ukma.mandarin.scheduler.repository.UserRepository;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Transactional

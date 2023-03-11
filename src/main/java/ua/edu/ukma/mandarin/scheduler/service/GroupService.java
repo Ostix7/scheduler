@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.GroupDTO;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Group;
+import ua.edu.ukma.mandarin.scheduler.domain.entity.Student;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Subject;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Teacher;
 import ua.edu.ukma.mandarin.scheduler.repository.GroupRepository;
@@ -42,6 +43,10 @@ public class GroupService {
 
     public Teacher getTeacher(int id) {
         return teacherService.getTeacher(id);
+    }
+
+    public Student getStudent(int id) {
+        return studentService.getStudentById(id);
     }
 
     public List<GroupDTO> findAllGroupsForLecturerId(long lecturerId) {

@@ -31,6 +31,13 @@ public class Subject {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Group> groups;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "subject_students",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private List<Student> students;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

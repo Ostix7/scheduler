@@ -10,6 +10,7 @@ import ua.edu.ukma.mandarin.scheduler.domain.entity.Teacher;
 import ua.edu.ukma.mandarin.scheduler.repository.SubjectRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,8 +78,25 @@ public class SubjectService {
     }
 
     private List<GroupDTO> getGroupDTOS(List<Group> groups) {
-        return groups.stream()
+        return Optional.ofNullable(groups).map(g -> g.stream()
                 .map(group -> new GroupDTO(group.getId(), group.getNumber(), group.getLecturer().getTeacherId()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()))
+                .orElse(null);
+    }
+
+    public void registerToSubject(Integer studentId, long subjectId) {
+        subjectRepository.findById(subjectId)
+                .ifPresent(subject -> {
+                    subject.getStudents().add(groupService.getStudent(studentId));
+                    subjectRepository.save(subject);
+                });
+    }
+
+    public void unregisterFromSubject(Integer studentId, long subjectId) {
+        subjectRepository.findById(subjectId)
+                .ifPresent(subject -> {
+                    subject.getStudents().remove(groupService.getStudent(studentId));
+                    subjectRepository.save(subject);
+                });
     }
 }
