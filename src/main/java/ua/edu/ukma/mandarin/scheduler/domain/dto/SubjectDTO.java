@@ -13,4 +13,5 @@ public class SubjectDTO {
     private int authorId;
     //Subject should be added with groups usually
     private List<GroupDTO> groupDTOList;
+//    private List<StudentDTO> students; TODO: not sure whether we need this, but probably for normative disciplines
 }

@@ -42,4 +42,12 @@ CREATE TABLE group_students (
     CONSTRAINT student_id_fk FOREIGN KEY (student_id) REFERENCES --TODO: Sasha needs to add
 );
 
+CREATE TABLE subject_students (
+    subject_id bigint NOT NULL,
+    student_id bigserial NOT NULL,
+    CONSTRAINT subject_student_pk PRIMARY KEY (subject_id, student_id),
+    CONSTRAINT subject_id_fk FOREIGN KEY (subject_id) REFERENCES subject(id),
+    CONSTRAINT student_id_fk FOREIGN KEY (student_id) REFERENCES --TODO: Sasha needs to add
+);
+
 --TODO: users & schedules tables
