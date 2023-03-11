@@ -50,4 +50,12 @@ CREATE TABLE subject_students (
     CONSTRAINT student_id_fk FOREIGN KEY (student_id) REFERENCES --TODO: Sasha needs to add
 );
 
+CREATE TABLE schedule (
+    id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES group(id),
+    day VARCHAR(10) NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL
+);
+
 --TODO: users & schedules tables
