@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.GroupDTO;
+import ua.edu.ukma.mandarin.scheduler.domain.dto.ScheduleDTO;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Schedule;
 import ua.edu.ukma.mandarin.scheduler.service.SchedulerService;
 
@@ -21,11 +22,7 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public List<Schedule> getAllSchedules() {
-        return schedulerService.findAll();
-    }
-    @GetMapping
-    public List<Schedule> getAllSchedulesByFaculty() {
+    public List<ScheduleDTO> getAllSchedules() {
         return schedulerService.findAll();
     }
 
