@@ -71,6 +71,14 @@ CREATE TABLE subject (
     CONSTRAINT author_of_subject_fk FOREIGN KEY (author_id) REFERENCES teacher(id)
 );
 
+CREATE TABLE subject_student (
+    subject_id bigint NOT NULL,
+    student_id bigint NOT NULL,
+    CONSTRAINT subject_student_pk PRIMARY KEY (subject_id, student_id),
+    CONSTRAINT subject_for_student_fk FOREIGN KEY (subject_id) REFERENCES subject(id),
+    CONSTRAINT student_for_subject_fk FOREIGN KEY (student_id) REFERENCES student(id)
+);
+
 CREATE TABLE university_group (
     id bigserial PRIMARY KEY,
     number smallint NOT NULL CHECK (number > 1 AND number < 10),

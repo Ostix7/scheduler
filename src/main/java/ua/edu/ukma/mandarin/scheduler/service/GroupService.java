@@ -2,30 +2,24 @@ package ua.edu.ukma.mandarin.scheduler.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.GroupDTO;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Group;
+import ua.edu.ukma.mandarin.scheduler.domain.entity.Student;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Subject;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Teacher;
 import ua.edu.ukma.mandarin.scheduler.repository.GroupRepository;
 
 @Service
+@RequiredArgsConstructor
 public class GroupService {
 
   private final GroupRepository groupRepository;
   private final TeacherService teacherService;
   private final StudentService studentService;
-
-  @Autowired
-  public GroupService(
-      GroupRepository groupRepository,
-      TeacherService teacherService,
-      StudentService studentService) {
-    this.groupRepository = groupRepository;
-    this.teacherService = teacherService;
-    this.studentService = studentService;
-  }
 
   public void addGroupsForSubject(List<GroupDTO> groupDTOList, Subject subject) {
     List<Group> groupsToSave =
@@ -45,6 +39,10 @@ public class GroupService {
 
   public Teacher getTeacher(Long id) {
     return teacherService.getTeacher(id);
+  }
+
+  public Student getStudent(Long id) {
+    return studentService.getStudentById(id);
   }
 
   public List<GroupDTO> findAllGroupsForTeacherId(Long teacherId) {

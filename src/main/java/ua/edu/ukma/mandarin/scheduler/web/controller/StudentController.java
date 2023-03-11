@@ -14,13 +14,11 @@ public class StudentController {
   private final StudentService studentService;
 
   @GetMapping
-  @ResponseBody
   public Iterable<Student> getAllStudents() {
     return studentService.getAllStudents();
   }
 
   @PostMapping(consumes = "application/json", produces = "application/json")
-  @ResponseBody
   public Student addStudent(@RequestBody @Valid Student student) {
     return studentService.addStudent(student);
   }

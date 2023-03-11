@@ -49,4 +49,16 @@ public class SubjectController {
   public void deleteSubjectById(@PathVariable Long id) {
     subjectService.deleteSubjectById(id);
   }
+
+  @PutMapping("/register/{id}")
+  public void registerStudentToGroup(
+      @RequestParam(name = "student") Long studentId, @PathVariable Long id) {
+    subjectService.registerToSubject(studentId, id);
+  }
+
+  @PutMapping("/unregister/{id}")
+  public void unregisterStudentFromGroup(
+      @RequestParam(name = "student") Long studentId, @PathVariable Long id) {
+    subjectService.unregisterFromSubject(studentId, id);
+  }
 }

@@ -23,4 +23,11 @@ public class Subject {
   private Teacher author;
 
   @OneToMany private List<Group> groups;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "subject_student",
+      joinColumns = @JoinColumn(name = "student_id"),
+      inverseJoinColumns = @JoinColumn(name = "subject_id"))
+  private List<Student> students;
 }

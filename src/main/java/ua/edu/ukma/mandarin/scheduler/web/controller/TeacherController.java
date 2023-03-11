@@ -12,7 +12,6 @@ public class TeacherController {
   private final TeacherService teacherService;
 
   @GetMapping
-  @ResponseBody
   public Iterable<Teacher> getAllTeachers() {
     return teacherService.getAllTeachers();
   }
