@@ -5,8 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class GroupDTO {
+public class ScheduleDTO {
+
   private Long id;
-  private byte number;
-  private Long teacherId;
+  private Long groupId;
+  private String day;
+  private String startTime;
+  private String endTime;
 }

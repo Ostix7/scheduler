@@ -1,66 +1,64 @@
 package ua.edu.ukma.mandarin.scheduler.web.controller;
 
-import org.springframework.data.repository.query.Param;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.SubjectDTO;
 import ua.edu.ukma.mandarin.scheduler.service.SubjectService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/subject")
+@RequiredArgsConstructor
 public class SubjectController {
 
-    private final SubjectService subjectService;
+  private final SubjectService subjectService;
 
-    public SubjectController(SubjectService subjectService) {
-        this.subjectService = subjectService;
-    }
+  @GetMapping("/all")
+  public List<SubjectDTO> getAllSubjects() {
+    return subjectService.getAllSubjects();
+  }
 
-    @GetMapping("/all")
-    public List<SubjectDTO> getAllSubjects() {
-        return subjectService.getAllSubjects();
-    }
+  @GetMapping(value = "/all", params = "author")
+  public List<SubjectDTO> getAllSubjectsByAuthor(@RequestParam(name = "author") Long authorId) {
+    return subjectService.getAllSubjectsByAuthorId(authorId);
+  }
 
-    @GetMapping("/all")
-    public List<SubjectDTO> getAllSubjects(@Param("author") Long authorId) {
-        return subjectService.getAllSubjectsByAuthorId(authorId);
-    }
+  @GetMapping("/{id}")
+  public SubjectDTO getSubjectById(@PathVariable Long id) {
+    return subjectService.getSubjectById(id);
+  }
 
-    @GetMapping("/{id}")
-    public SubjectDTO getSubjectById(@PathVariable Long id) {
-        return subjectService.getSubjectById(id);
-    }
+  @GetMapping
+  public SubjectDTO getSubjectById(@RequestParam(name = "name") String name) {
+    return subjectService.getSubjectBySubjectName(name);
+  }
 
-    @GetMapping
-    public SubjectDTO getSubjectById(@Param("name") String name) {
-        return subjectService.getSubjectBySubjectName(name);
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public void addSubject(@RequestBody SubjectDTO newSubject) {
+    subjectService.addNewSubject(newSubject);
+  }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addSubject(@RequestBody SubjectDTO newSubject) {
-        subjectService.addNewSubject(newSubject);
-    }
+  @PutMapping
+  public void updateSubject(@RequestBody SubjectDTO updatedSubject) {
+    subjectService.updateSubject(updatedSubject);
+  }
 
-    @PutMapping
-    public void updateSubject(@RequestBody SubjectDTO updatedSubject) {
-        subjectService.updateSubject(updatedSubject);
-    }
+  @DeleteMapping("/{id}")
+  public void deleteSubjectById(@PathVariable Long id) {
+    subjectService.deleteSubjectById(id);
+  }
 
-    @DeleteMapping("/{id}")
-    public void deleteSubjectById(@PathVariable Long id) {
-        subjectService.deleteSubjectById(id);
-    }
+  @PutMapping("/register/{id}")
+  public void registerStudentToGroup(
+      @RequestParam(name = "student") Long studentId, @PathVariable Long id) {
+    subjectService.registerToSubject(studentId, id);
+  }
 
-    @PutMapping("/register/{id}")
-    public void registerStudentToGroup(@Param("student") Integer studentId, @PathVariable long id) {
-        subjectService.registerToSubject(studentId, id);
-    }
-
-    @PutMapping("/unregister/{id}")
-    public void unregisterStudentFromGroup(@Param("student") Integer studentId, @PathVariable long id) {
-        subjectService.unregisterFromSubject(studentId, id);
-    }
+  @PutMapping("/unregister/{id}")
+  public void unregisterStudentFromGroup(
+      @RequestParam(name = "student") Long studentId, @PathVariable Long id) {
+    subjectService.unregisterFromSubject(studentId, id);
+  }
 }

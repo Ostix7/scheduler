@@ -1,5 +1,9 @@
 package ua.edu.ukma.mandarin.scheduler.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.GroupDTO;
@@ -9,72 +13,65 @@ import ua.edu.ukma.mandarin.scheduler.domain.entity.Subject;
 import ua.edu.ukma.mandarin.scheduler.domain.entity.Teacher;
 import ua.edu.ukma.mandarin.scheduler.repository.GroupRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
+@RequiredArgsConstructor
 public class GroupService {
 
-    private final GroupRepository groupRepository;
-    private final TeacherService teacherService;
-    private final StudentService studentService;
+  private final GroupRepository groupRepository;
+  private final TeacherService teacherService;
+  private final StudentService studentService;
 
-    @Autowired
-    public GroupService(GroupRepository groupRepository, TeacherService teacherService, StudentService studentService) {
-        this.groupRepository = groupRepository;
-        this.teacherService = teacherService;
-        this.studentService = studentService;
-    }
-
-    public void addGroupsForSubject(List<GroupDTO> groupDTOList, Subject subject) {
-        List<Group> groupsToSave = groupDTOList.stream()
-                .map(groupDTO ->
+  public void addGroupsForSubject(List<GroupDTO> groupDTOList, Subject subject) {
+    List<Group> groupsToSave =
+        groupDTOList.stream()
+            .map(
+                groupDTO ->
                     Group.builder()
-                            .id(groupDTO.getId())
-                            .subject(subject)
-                            .number(groupDTO.getNumber())
-                            .lecturer(getTeacher(groupDTO.getLecturerId()))
-                            .build()
-                )
-                .collect(Collectors.toList());
+                        .id(groupDTO.getId())
+                        .subject(subject)
+                        .number(groupDTO.getNumber())
+                        .teacher(getTeacher(groupDTO.getTeacherId()))
+                        .build())
+            .collect(Collectors.toList());
 
-        groupRepository.saveAll(groupsToSave);
-    }
+    groupRepository.saveAll(groupsToSave);
+  }
 
-    public Teacher getTeacher(int id) {
-        return teacherService.getTeacher(id);
-    }
+  public Teacher getTeacher(Long id) {
+    return teacherService.getTeacher(id);
+  }
 
-    public Student getStudent(int id) {
-        return studentService.getStudentById(id);
-    }
+  public Student getStudent(Long id) {
+    return studentService.getStudentById(id);
+  }
 
-    public List<GroupDTO> findAllGroupsForLecturerId(long lecturerId) {
-        return groupRepository.findAllByLecturerId(lecturerId)
-                .stream()
-                .map(group -> new GroupDTO(group.getId(), group.getNumber(), group.getLecturer().getTeacherId()))
-                .collect(Collectors.toList());
-    }
+  public List<GroupDTO> findAllGroupsForTeacherId(Long teacherId) {
+    return groupRepository.findAllByTeacherId(teacherId).stream()
+        .map(group -> new GroupDTO(group.getId(), group.getNumber(), group.getTeacher().getId()))
+        .collect(Collectors.toList());
+  }
 
-    public void deleteGroupById(long id) {
-        groupRepository.findById(id)
-                .ifPresent(group -> groupRepository.deleteById(id));
-    }
+  public void deleteGroupById(Long id) {
+    groupRepository.findById(id).ifPresent(group -> groupRepository.deleteById(id));
+  }
 
-    public void registerToGroup(int studentId, long groupId) {
-        groupRepository.findById(groupId)
-                .ifPresent(group -> {
-                    group.getStudents().add(studentService.getStudentById(studentId));
-                    groupRepository.save(group);
-                });
+  public void registerToGroup(Long studentId, Long groupId) {
+    groupRepository
+        .findById(groupId)
+        .ifPresent(
+            group -> {
+              group.getStudents().add(studentService.getStudentById(studentId));
+              groupRepository.save(group);
+            });
+  }
 
-    }
-
-    public void unregisterFromGroup(int studentId, long groupId) {
-        groupRepository.findById(groupId)
-                .ifPresent(group -> {
-                    group.getStudents().remove(studentService.getStudentById(studentId));
-                    groupRepository.save(group);
-                });
-    }
+  public void unregisterFromGroup(Long studentId, Long groupId) {
+    groupRepository
+        .findById(groupId)
+        .ifPresent(
+            group -> {
+              group.getStudents().remove(studentService.getStudentById(studentId));
+              groupRepository.save(group);
+            });
+  }
 }

@@ -1,35 +1,40 @@
 package ua.edu.ukma.mandarin.scheduler.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import ua.edu.ukma.mandarin.scheduler.domain.entity.security.Principal;
 
-
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
-@Data
-@Builder
+@Table(name = "student")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "student_id")
-    private Integer studentId;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id")
-    private User user;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String faculty;
+  @OneToOne
+  @JoinColumn(name = "principal_id")
+  private Principal principal;
 
-    private String speciality;
+  @Column(name = "first_name")
+  private String firstName;
 
-    @Min(value = 1, message = "Year must not be less than 1")
-    @Max(value = 6, message = "Year must not be greater than 6")
-    @Column(name = "student_year")
-    private Integer studentYear;
+  @Column(name = "last_name")
+  private String lastName;
 
+  @ManyToOne
+  @JoinColumn(name = "speciality_id")
+  private Speciality speciality;
+
+  @Min(value = 1, message = "Year must not be less than 1")
+  @Max(value = 6, message = "Year must not be greater than 6")
+  @Column(name = "study_year")
+  private Integer studyYear;
 }

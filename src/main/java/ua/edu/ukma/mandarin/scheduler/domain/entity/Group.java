@@ -1,41 +1,39 @@
 package ua.edu.ukma.mandarin.scheduler.domain.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
-@Table(name = "group")
+@Table(name = "university_group")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 public class Group {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private byte number;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn
-    private Teacher lecturer;
+  private byte number;
 
-    @ManyToOne
-    @JoinColumn
-    private Subject subject;
+  @ManyToOne
+  @JoinColumn(name = "subject_id")
+  private Subject subject;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "group_students",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Student> students;
+  @ManyToOne
+  @JoinColumn(name = "teacher_id")
+  private Teacher teacher;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Schedule> schedules;
+  @ManyToMany
+  @JoinTable(
+      name = "group_student",
+      joinColumns = @JoinColumn(name = "student_id"),
+      inverseJoinColumns = @JoinColumn(name = "group_id"))
+  private List<Student> students;
 
+  @OneToMany(mappedBy = "group")
+  private List<Schedule> schedules;
 }

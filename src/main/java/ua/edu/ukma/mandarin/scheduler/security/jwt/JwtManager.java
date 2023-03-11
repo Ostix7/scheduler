@@ -3,13 +3,12 @@ package ua.edu.ukma.mandarin.scheduler.security.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
-import ua.edu.ukma.mandarin.scheduler.domain.entity.Principal;
+import ua.edu.ukma.mandarin.scheduler.domain.entity.security.Principal;
 
 @Component
 public class JwtManager {
@@ -18,12 +17,10 @@ public class JwtManager {
   private static final String CLAIM_ROLES = "roles";
   private static final String ISSUER = "Scheduler";
 
-  private final JwtProperties jwtProperties;
   private final Algorithm algorithm;
   private final JWTVerifier verifier;
 
   public JwtManager(final JwtProperties jwtProperties) {
-    this.jwtProperties = jwtProperties;
     this.algorithm = Algorithm.HMAC256(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
     this.verifier = JWT.require(algorithm).build();
   }
@@ -39,20 +36,16 @@ public class JwtManager {
         .sign(algorithm);
   }
 
-  public DecodedJWT verifyToken(String token) {
-    return verifier.verify(token);
-  }
-
   public String getEmail(String token) {
-    return verifyToken(token).getSubject();
+    return verifier.verify(token).getSubject();
   }
 
   public List<String> getRoles(String token) {
-    return verifyToken(token).getClaim(CLAIM_ROLES).asList(String.class);
+    return verifier.verify(token).getClaim(CLAIM_ROLES).asList(String.class);
   }
 
   public boolean isTokenExpired(String token) {
     final Date now = new Date();
-    return verifyToken(token).getExpiresAt().after(now);
+    return verifier.verify(token).getExpiresAt().after(now);
   }
 }

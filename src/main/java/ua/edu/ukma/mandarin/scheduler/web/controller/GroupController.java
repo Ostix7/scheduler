@@ -1,41 +1,37 @@
 package ua.edu.ukma.mandarin.scheduler.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ua.edu.ukma.mandarin.scheduler.domain.dto.GroupDTO;
 import ua.edu.ukma.mandarin.scheduler.service.GroupService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/group")
+@RequiredArgsConstructor
 public class GroupController {
 
-    private final GroupService groupService;
+  private final GroupService groupService;
 
-    @Autowired
-    public GroupController(GroupService groupService) {
-        this.groupService = groupService;
-    }
+  @GetMapping
+  public List<GroupDTO> getAllGroupsForTeacher(@RequestParam(name = "teacher") Long teacherId) {
+    return groupService.findAllGroupsForTeacherId(teacherId);
+  }
 
-    @GetMapping
-    public List<GroupDTO> getAllGroupsForLecturer(@Param("lecturer") Long lecturerId) {
-        return groupService.findAllGroupsForLecturerId(lecturerId);
-    }
+  @DeleteMapping("/{id}")
+  public void deleteSubjectById(@PathVariable Long id) {
+    groupService.deleteGroupById(id);
+  }
 
-    @DeleteMapping("/{id}")
-    public void deleteSubjectById(@PathVariable Long id) {
-        groupService.deleteGroupById(id);
-    }
+  @PutMapping("/register/{id}")
+  public void registerStudentToGroup(
+      @RequestParam(name = "studentId") Long studentId, @PathVariable Long id) {
+    groupService.registerToGroup(studentId, id);
+  }
 
-    @PutMapping("/register/{id}")
-    public void registerStudentToGroup(@Param("student") Integer studentId, @PathVariable long id) {
-        groupService.registerToGroup(studentId, id);
-    }
-
-    @PutMapping("/unregister/{id}")
-    public void unregisterStudentFromGroup(@Param("student") Integer studentId, @PathVariable long id) {
-        groupService.unregisterFromGroup(studentId, id);
-    }
+  @PutMapping("/unregister/{id}")
+  public void unregisterStudentFromGroup(
+      @RequestParam(name = "studentId") Long studentId, @PathVariable Long id) {
+    groupService.unregisterFromGroup(studentId, id);
+  }
 }

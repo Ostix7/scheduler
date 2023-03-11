@@ -1,4 +1,4 @@
-package ua.edu.ukma.mandarin.scheduler.domain.entity;
+package ua.edu.ukma.mandarin.scheduler.domain.entity.security;
 
 import jakarta.persistence.*;
 import java.util.Collection;
