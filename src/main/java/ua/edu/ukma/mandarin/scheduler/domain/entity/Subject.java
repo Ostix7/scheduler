@@ -1,7 +1,9 @@
 package ua.edu.ukma.mandarin.scheduler.domain.entity;
 
 import jakarta.persistence.*;
+
 import java.util.List;
+
 import lombok.*;
 
 @Entity
@@ -12,22 +14,23 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Subject {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private String name;
+    private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "author_id")
-  private Teacher author;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Teacher author;
 
-  @OneToMany private List<Group> groups;
+    @OneToMany(mappedBy = "subject")
+    private List<Group> groups;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "subject_student",
-      joinColumns = @JoinColumn(name = "student_id"),
-      inverseJoinColumns = @JoinColumn(name = "subject_id"))
-  private List<Student> students;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "subject_student",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
 }

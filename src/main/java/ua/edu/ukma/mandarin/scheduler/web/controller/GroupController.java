@@ -19,19 +19,19 @@ public class GroupController {
   }
 
   @DeleteMapping("/{id}")
-  public void deleteSubjectById(@PathVariable Long id) {
+  public void deleteGroupById(@PathVariable Long id) {
     groupService.deleteGroupById(id);
   }
 
   @PutMapping("/register/{id}")
   public void registerStudentToGroup(
-      @RequestParam(name = "studentId") Long studentId, @PathVariable Long id) {
+      @RequestParam(name = "student") Long studentId, @PathVariable Long id) {
     groupService.registerToGroup(studentId, id);
   }
 
   @PutMapping("/unregister/{id}")
   public void unregisterStudentFromGroup(
-      @RequestParam(name = "studentId") Long studentId, @PathVariable Long id) {
+      @RequestParam(name = "student") Long studentId, @PathVariable Long id) {
     groupService.unregisterFromGroup(studentId, id);
   }
 }

@@ -30,7 +30,7 @@ public class SubjectController {
   }
 
   @GetMapping
-  public SubjectDTO getSubjectById(@RequestParam(name = "name") String name) {
+  public SubjectDTO getSubjectByName(@RequestParam(name = "name") String name) {
     return subjectService.getSubjectBySubjectName(name);
   }
 
