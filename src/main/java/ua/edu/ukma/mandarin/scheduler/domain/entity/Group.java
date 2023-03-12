@@ -27,11 +27,11 @@ public class Group {
   @JoinColumn(name = "teacher_id")
   private Teacher teacher;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "group_student",
-      joinColumns = @JoinColumn(name = "student_id"),
-      inverseJoinColumns = @JoinColumn(name = "group_id"))
+      joinColumns = @JoinColumn(name = "group_id"),
+      inverseJoinColumns = @JoinColumn(name = "student_id"))
   private List<Student> students;
 
   @OneToMany(mappedBy = "group")

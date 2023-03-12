@@ -81,7 +81,7 @@ CREATE TABLE subject_student (
 
 CREATE TABLE university_group (
     id bigserial PRIMARY KEY,
-    number smallint NOT NULL CHECK (number > 1 AND number < 10),
+    number smallint NOT NULL CHECK (number > 0 AND number < 10),
     teacher_id bigint NOT NULL,
     subject_id bigint NOT NULL,
     CONSTRAINT subject_of_group_fk FOREIGN KEY (subject_id) REFERENCES subject(id),
@@ -105,3 +105,20 @@ CREATE TABLE schedule (
     end_time varchar(255) NOT NULL,
     CONSTRAINT group_of_schedule_fk FOREIGN KEY (group_id) REFERENCES university_group(id)
 );
+
+INSERT INTO principal(id, email, password)
+VALUES (1, 'teacher@ukma.edu.ua', '12345');
+INSERT INTO principal(id, email, password)
+VALUES (2, 'student@ukma.edu.ua', '123456');
+
+INSERT INTO faculty(id, name)
+VALUES (1, 'philology');
+
+INSERT INTO speciality(id, name, faculty_id)
+VALUES (1, 'philosophy', 1);
+
+INSERT INTO teacher (principal_id, first_name, last_name, rank)
+VALUES (1, 'Oleg', 'Duda', 'doctor');
+
+INSERT INTO student (principal_id, first_name, last_name, study_year, speciality_id)
+VALUES (2, 'Ihor', 'Turko', 3, 1);
